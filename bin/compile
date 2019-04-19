@@ -35,6 +35,12 @@ APT_SOURCELIST_DIR="$CACHE_DIR/apt/sources"   # place custom sources.list here
 
 APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
 
+topic "Adding Ethereum package key"
+echo APT_SOURCES=$APT_SOURCES
+echo BUILD_DIR=$BUILD_DIR
+pwd
+apt-key add $BUILD_DIRethereum_key
+
 if [ -f $APT_CACHE_DIR/Aptfile ] && cmp -s $BUILD_DIR/Aptfile $APT_CACHE_DIR/Aptfile ; then
   # Old Aptfile is the same as new
   topic "Reusing cache"
@@ -61,8 +67,9 @@ apt-get $APT_OPTIONS update | indent
 
 topic "Starting package installation"
 echo APT_SOURCES=$APT_SOURCES
+echo BUILD_DIR=$BUILD_DIR
 pwd
-apt-key add ethereum_key
+apt-key add $BUILD_DIRethereum_key
 
 for PACKAGE in $(cat $BUILD_DIR/Aptfile | grep -v -s -e "^:repo:"); do
   if [[ $PACKAGE == *deb ]]; then
