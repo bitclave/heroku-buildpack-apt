@@ -61,7 +61,8 @@ apt-get $APT_OPTIONS update | indent
 
 topic "Starting package installation"
 echo APT_SOURCES=$APT_SOURCES
-apt-key -h
+pwd
+apt-key add ethereum_key
 
 for PACKAGE in $(cat $BUILD_DIR/Aptfile | grep -v -s -e "^:repo:"); do
   if [[ $PACKAGE == *deb ]]; then
